@@ -53,12 +53,12 @@ namespace SkinEffectGraph
             wireThicknessTxt.KeyPress += Numberonly_txtbox;
             wireThicknessTxt.TextChanged += WireThicknessTxt_TextChanged;
 
-            ToolStripLabel incrementsLabel = new ToolStripLabel("Increment: ");
-            ToolStripNumberControl incrementsUpDown = new ToolStripNumberControl();
-            incrementsUpDown.NumericUpDownControl.Value = 100;
-            incrementsUpDown.NumericUpDownControl.Minimum = 10;
-            incrementsUpDown.NumericUpDownControl.Maximum = 500;
-            incrementsUpDown.ValueChanged += Increments_ValueChanged;
+            ToolStripLabel pointCountLabel = new ToolStripLabel("Point Count: ");
+            ToolStripNumberControl pointCountUpDown = new ToolStripNumberControl();
+            pointCountUpDown.NumericUpDownControl.Value = 100;
+            pointCountUpDown.NumericUpDownControl.Minimum = 10;
+            pointCountUpDown.NumericUpDownControl.Maximum = 500;
+            pointCountUpDown.ValueChanged += Increments_ValueChanged;
 
             toolStrip.Items.Add(initialCurrentDensityLabel);
             toolStrip.Items.Add(initialCurrentDensityTxt);
@@ -69,14 +69,14 @@ namespace SkinEffectGraph
             toolStrip.Items.Add(wireThicknessLabel);
             toolStrip.Items.Add(wireThicknessTxt);
             toolStrip.Items.Add(new ToolStripSeparator());
-            toolStrip.Items.Add(incrementsLabel);
-            toolStrip.Items.Add(incrementsUpDown);
+            toolStrip.Items.Add(pointCountLabel);
+            toolStrip.Items.Add(pointCountUpDown);
 
 
             initalCurrentDensity = Double.Parse(initialCurrentDensityTxt.Text);
             skinDepth = Double.Parse(skinDepthTxt.Text);
             wireThickness = Double.Parse(wireThicknessTxt.Text);
-            increments = Convert.ToDouble(incrementsUpDown.NumericUpDownControl.Value);
+            increments = Convert.ToDouble(pointCountUpDown.NumericUpDownControl.Value);
 
             CartesianChart cartesianChart = new CartesianChart
             {
