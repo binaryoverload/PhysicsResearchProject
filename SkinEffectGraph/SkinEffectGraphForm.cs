@@ -90,13 +90,16 @@ namespace SkinEffectGraph
             {
                 Title = "Depth",
                 MinValue = 0,
-
+                Foreground = Brushes.Black,
+                FontSize = 12
             });
 
             cartesianChart.AxisY.Add(new LiveCharts.Wpf.Axis
             {
                 Title = "Current Density",
-                MinValue = 0
+                MinValue = 0,
+                Foreground = Brushes.Black,
+                FontSize = 12
             });
 
             this.Controls.Add(cartesianChart);
