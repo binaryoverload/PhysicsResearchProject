@@ -11,12 +11,13 @@ namespace SkinEffectGraph
     public partial class SkinEffectGraphForm : Form
     {
 
-        double initalCurrentDensity;
-        double skinDepth;
-        double wireThickness;
-        LiveCharts.Wpf.AxisSection skinDepthAxisSection;
-        LiveCharts.Wpf.AxisSection negligibleAxisSection;
-        LiveCharts.Wpf.AxisSection minimalAxisSection;
+        private double initalCurrentDensity;
+        private double skinDepth;
+        private double wireThickness;
+        private LiveCharts.Wpf.AxisSection skinDepthAxisSection;
+        private LiveCharts.Wpf.AxisSection negligibleAxisSection;
+        private LiveCharts.Wpf.AxisSection minimalAxisSection;
+        private double increments;
 
         public SkinEffectGraphForm()
         {
@@ -52,6 +53,13 @@ namespace SkinEffectGraph
             wireThicknessTxt.KeyPress += Numberonly_txtbox;
             wireThicknessTxt.TextChanged += WireThicknessTxt_TextChanged;
 
+            ToolStripLabel incrementsLabel = new ToolStripLabel("Increment: ");
+            ToolStripNumberControl incrementsUpDown = new ToolStripNumberControl();
+            incrementsUpDown.NumericUpDownControl.Value = 100;
+            incrementsUpDown.NumericUpDownControl.Minimum = 10;
+            incrementsUpDown.NumericUpDownControl.Maximum = 500;
+            incrementsUpDown.ValueChanged += Increments_ValueChanged;
+
             toolStrip.Items.Add(initialCurrentDensityLabel);
             toolStrip.Items.Add(initialCurrentDensityTxt);
             toolStrip.Items.Add(new ToolStripSeparator());
@@ -60,10 +68,15 @@ namespace SkinEffectGraph
             toolStrip.Items.Add(new ToolStripSeparator());
             toolStrip.Items.Add(wireThicknessLabel);
             toolStrip.Items.Add(wireThicknessTxt);
+            toolStrip.Items.Add(new ToolStripSeparator());
+            toolStrip.Items.Add(incrementsLabel);
+            toolStrip.Items.Add(incrementsUpDown);
+
 
             initalCurrentDensity = Double.Parse(initialCurrentDensityTxt.Text);
             skinDepth = Double.Parse(skinDepthTxt.Text);
             wireThickness = Double.Parse(wireThicknessTxt.Text);
+            increments = Convert.ToDouble(incrementsUpDown.NumericUpDownControl.Value);
 
             CartesianChart cartesianChart = new CartesianChart
             {
@@ -109,6 +122,12 @@ namespace SkinEffectGraph
 
         }
 
+        private void Increments_ValueChanged(object sender, EventArgs e)
+        {
+            increments = Convert.ToDouble((sender as ToolStripNumberControl).NumericUpDownControl.Value);
+            UpdateData();
+        }
+
         private void WireThicknessTxt_TextChanged(object sender, EventArgs e)
         {
             wireThickness = Double.Parse((sender as ToolStripTextBox).Text == "" ? "0" : (sender as ToolStripTextBox).Text);
@@ -131,7 +150,7 @@ namespace SkinEffectGraph
         {
             CartesianChart chart = (this.Controls["chart"] as CartesianChart);
             InitialiseChart();
-            for (double depth = 0; depth <= wireThickness / 2; depth += (wireThickness / 200))
+            for (double depth = 0; depth <= wireThickness / 2; depth += (wireThickness / 2 / increments))
             {
                 chart.Series[0].Values.Add(new ObservablePoint(depth, CalculateCurrentDensity(initalCurrentDensity, depth, skinDepth)));
                 if (CalculateCurrentDensity(initalCurrentDensity, depth, skinDepth) <= initalCurrentDensity * 0.001 && negligibleAxisSection.Value == 0)
