@@ -6,7 +6,7 @@ This program takes the variables of initial current density, skin depth and wire
 
 The program uses a depth range from 0 to half the wire thickness to form a graph that looks like this: 
 
-![image](https://user-images.githubusercontent.com/15330699/41509073-47e1034a-7246-11e8-98c3-af6a4e994614.png)
+![image](https://user-images.githubusercontent.com/15330699/41510280-a21fdb7a-7259-11e8-810f-5d8a9b46c76d.png)
 
 The amount of points can be configured using the "Point Count" control. This is set to 100 by default which provides a decent accuracy. This number can be reduced
 or increased to a minumum of 10 and a maximum of 500 although this is not recommended.
