@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp2
+namespace SkinEffectGraph
 {
     static class Program
     {
@@ -16,7 +16,8 @@ namespace WindowsFormsApp2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SkinEffectForm());
+            Application.Run(new SkinEffectGraphForm());
+            //Application.Run(new AboutForm());
         }
     }
 }
