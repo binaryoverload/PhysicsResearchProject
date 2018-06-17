@@ -82,8 +82,14 @@ namespace SkinEffectGraph
 
         public void InitialCurrentDensityTxt_LostFocus(object sender, EventArgs e)
         {
-            // Safe to assume that it will parse as parsing is handled in text changed
-            if (Double.Parse((sender as ToolStripTextBox).Text) <= 0)
+            try
+            {
+                if (Double.Parse((sender as ToolStripTextBox).Text) <= 0)
+                {
+                    (sender as ToolStripTextBox).Text = "100";
+                }
+            }
+            catch (Exception)
             {
                 (sender as ToolStripTextBox).Text = "100";
             }
@@ -91,8 +97,14 @@ namespace SkinEffectGraph
 
         public void SkinDepthTxt_LostFocus(object sender, EventArgs e)
         {
-            // Safe to assume that it will parse as parsing is handled in text changed
-            if (Double.Parse((sender as ToolStripTextBox).Text) <= 0)
+            try
+            {
+                if (Double.Parse((sender as ToolStripTextBox).Text) <= 0)
+                {
+                    (sender as ToolStripTextBox).Text = "0.1";
+                }
+            } 
+            catch (Exception)
             {
                 (sender as ToolStripTextBox).Text = "0.1";
             }
@@ -100,8 +112,14 @@ namespace SkinEffectGraph
 
         public void WireThicknessTxt_LostFocus(object sender, EventArgs e)
         {
-            // Safe to assume that it will parse as parsing is handled in text changed
-            if (Double.Parse((sender as ToolStripTextBox).Text) <= 0)
+            try
+            {
+                if (Double.Parse((sender as ToolStripTextBox).Text) <= 0)
+                {
+                    (sender as ToolStripTextBox).Text = "2";
+                }
+            }
+            catch (Exception)
             {
                 (sender as ToolStripTextBox).Text = "2";
             }
