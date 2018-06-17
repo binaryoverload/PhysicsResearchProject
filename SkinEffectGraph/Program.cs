@@ -17,7 +17,6 @@ namespace SkinEffectGraph
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new SkinEffectGraphForm());
-            //Application.Run(new AboutForm());
         }
     }
 }
