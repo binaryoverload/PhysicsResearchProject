@@ -11,54 +11,65 @@ namespace SkinEffectGraph
     public partial class SkinEffectGraphForm : Form
     {
 
-        private double initalCurrentDensity;
-        private double skinDepth;
-        private double wireThickness;
-        private LiveCharts.Wpf.AxisSection skinDepthAxisSection;
-        private LiveCharts.Wpf.AxisSection negligibleAxisSection;
-        private LiveCharts.Wpf.AxisSection minimalAxisSection;
-        private double increments;
+        public double initalCurrentDensity;
+        public double skinDepth;
+        public double wireThickness;
+        public LiveCharts.Wpf.AxisSection skinDepthAxisSection;
+        public LiveCharts.Wpf.AxisSection negligibleAxisSection;
+        public LiveCharts.Wpf.AxisSection minimalAxisSection;
+        public double increments;
+
+        private Events events;
 
         public SkinEffectGraphForm()
         {
             InitializeComponent();
 
+            events = new Events(this);
+
             ToolStrip toolStrip = new ToolStrip
             {
+                Name = "toolStrip",
                 Dock = DockStyle.Top
             };
 
             ToolStripLabel initialCurrentDensityLabel = new ToolStripLabel("Inital Current Density: ");
             ToolStripTextBox initialCurrentDensityTxt = new ToolStripTextBox
             {
+                Name = "initialCurrentDensityTxt",
                 Text = "100"
             };
             initialCurrentDensityTxt.KeyPress += Numberonly_txtbox;
-            initialCurrentDensityTxt.TextChanged += InitialCurrentDensityTxt_TextChanged;
+            initialCurrentDensityTxt.TextChanged += events.InitialCurrentDensityTxt_TextChanged;
+            initialCurrentDensityTxt.LostFocus += events.InitialCurrentDensityTxt_LostFocus;
 
             ToolStripLabel skinDepthLabel = new ToolStripLabel("Skin Depth: ");
             ToolStripTextBox skinDepthTxt = new ToolStripTextBox
             {
-                Text = "0.05"
+                Name = "skinDepthTxt",
+                Text = "0.1"
             };
             skinDepthTxt.KeyPress += Numberonly_txtbox;
-            skinDepthTxt.TextChanged += SkinDepthTxt_TextChanged;
+            skinDepthTxt.TextChanged += events.SkinDepthTxt_TextChanged;
+            skinDepthTxt.LostFocus += events.SkinDepthTxt_LostFocus;
 
 
             ToolStripLabel wireThicknessLabel = new ToolStripLabel("Wire Thickness: ");
             ToolStripTextBox wireThicknessTxt = new ToolStripTextBox
             {
-                Text = "10"
+                Name = "wireThicknessTxt",
+                Text = "2"
             };
             wireThicknessTxt.KeyPress += Numberonly_txtbox;
-            wireThicknessTxt.TextChanged += WireThicknessTxt_TextChanged;
+            wireThicknessTxt.TextChanged += events.WireThicknessTxt_TextChanged;
+            wireThicknessTxt.LostFocus += events.WireThicknessTxt_LostFocus;
 
             ToolStripLabel pointCountLabel = new ToolStripLabel("Point Count: ");
             ToolStripNumberControl pointCountUpDown = new ToolStripNumberControl();
             pointCountUpDown.NumericUpDownControl.Value = 100;
             pointCountUpDown.NumericUpDownControl.Minimum = 10;
             pointCountUpDown.NumericUpDownControl.Maximum = 500;
-            pointCountUpDown.ValueChanged += Increments_ValueChanged;
+            pointCountUpDown.ValueChanged += events.Increments_ValueChanged;
 
             toolStrip.Items.Add(initialCurrentDensityLabel);
             toolStrip.Items.Add(initialCurrentDensityTxt);
@@ -71,7 +82,6 @@ namespace SkinEffectGraph
             toolStrip.Items.Add(new ToolStripSeparator());
             toolStrip.Items.Add(pointCountLabel);
             toolStrip.Items.Add(pointCountUpDown);
-
 
             initalCurrentDensity = Double.Parse(initialCurrentDensityTxt.Text);
             skinDepth = Double.Parse(skinDepthTxt.Text);
@@ -122,31 +132,7 @@ namespace SkinEffectGraph
 
         }
 
-        private void Increments_ValueChanged(object sender, EventArgs e)
-        {
-            increments = Convert.ToDouble((sender as ToolStripNumberControl).NumericUpDownControl.Value);
-            UpdateData();
-        }
-
-        private void WireThicknessTxt_TextChanged(object sender, EventArgs e)
-        {
-            wireThickness = Double.Parse((sender as ToolStripTextBox).Text == "" ? "0" : (sender as ToolStripTextBox).Text);
-            UpdateData();
-        }
-
-        private void SkinDepthTxt_TextChanged(object sender, EventArgs e)
-        {
-            skinDepth = Double.Parse((sender as ToolStripTextBox).Text == "" ? "0" : (sender as ToolStripTextBox).Text);
-            UpdateData();
-        }
-
-        private void InitialCurrentDensityTxt_TextChanged(object sender, EventArgs e)
-        {
-            initalCurrentDensity = Double.Parse((sender as ToolStripTextBox).Text == "" ? "0" : (sender as ToolStripTextBox).Text);
-            UpdateData();
-        }
-
-        private void UpdateData()
+        public void UpdateData()
         {
             CartesianChart chart = (this.Controls["chart"] as CartesianChart);
             InitialiseChart();
@@ -171,7 +157,7 @@ namespace SkinEffectGraph
             chart.AxisY[0].MaxValue = initalCurrentDensity;
         }
 
-        private void InitialiseChart()
+        public void InitialiseChart()
         {
             CartesianChart chart = (this.Controls["chart"] as CartesianChart);
             chart.Series[0].Values.Clear();

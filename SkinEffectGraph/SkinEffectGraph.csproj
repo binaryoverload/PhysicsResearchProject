@@ -75,6 +75,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events.cs" />
     <Compile Include="ToolStripNumberControl.cs">
       <SubType>Component</SubType>
     </Compile>
