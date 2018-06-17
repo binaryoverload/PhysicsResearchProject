@@ -5,9 +5,6 @@ using System.Windows;
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.WinForms;
-using System.Reflection;
-using System.IO;
-using System.Resources;
 
 namespace SkinEffectGraph
 {
@@ -20,8 +17,6 @@ namespace SkinEffectGraph
         LiveCharts.Wpf.AxisSection skinDepthAxisSection;
         LiveCharts.Wpf.AxisSection negligibleAxisSection;
         LiveCharts.Wpf.AxisSection minimalAxisSection;
-
-
 
         public SkinEffectGraphForm()
         {
@@ -37,7 +32,7 @@ namespace SkinEffectGraph
             {
                 Text = "100"
             };
-            initialCurrentDensityTxt.KeyPress += numberonly_txtbox;
+            initialCurrentDensityTxt.KeyPress += Numberonly_txtbox;
             initialCurrentDensityTxt.TextChanged += InitialCurrentDensityTxt_TextChanged;
 
             ToolStripLabel skinDepthLabel = new ToolStripLabel("Skin Depth: ");
@@ -45,7 +40,7 @@ namespace SkinEffectGraph
             {
                 Text = "0.05"
             };
-            skinDepthTxt.KeyPress += numberonly_txtbox;
+            skinDepthTxt.KeyPress += Numberonly_txtbox;
             skinDepthTxt.TextChanged += SkinDepthTxt_TextChanged;
 
 
@@ -54,7 +49,7 @@ namespace SkinEffectGraph
             {
                 Text = "10"
             };
-            wireThicknessTxt.KeyPress += numberonly_txtbox;
+            wireThicknessTxt.KeyPress += Numberonly_txtbox;
             wireThicknessTxt.TextChanged += WireThicknessTxt_TextChanged;
 
             toolStrip.Items.Add(initialCurrentDensityLabel);
@@ -107,41 +102,41 @@ namespace SkinEffectGraph
             this.Controls.Add(cartesianChart);
             this.Controls.Add(toolStrip);
 
-            updateData();
+            UpdateData();
 
         }
 
         private void WireThicknessTxt_TextChanged(object sender, EventArgs e)
         {
             wireThickness = Double.Parse((sender as ToolStripTextBox).Text == "" ? "0" : (sender as ToolStripTextBox).Text);
-            updateData();
+            UpdateData();
         }
 
         private void SkinDepthTxt_TextChanged(object sender, EventArgs e)
         {
             skinDepth = Double.Parse((sender as ToolStripTextBox).Text == "" ? "0" : (sender as ToolStripTextBox).Text);
-            updateData();
+            UpdateData();
         }
 
         private void InitialCurrentDensityTxt_TextChanged(object sender, EventArgs e)
         {
             initalCurrentDensity = Double.Parse((sender as ToolStripTextBox).Text == "" ? "0" : (sender as ToolStripTextBox).Text);
-            updateData();
+            UpdateData();
         }
 
-        private void updateData()
+        private void UpdateData()
         {
             CartesianChart chart = (this.Controls["chart"] as CartesianChart);
-            initialiseChart();
+            InitialiseChart();
             for (double depth = 0; depth <= wireThickness / 2; depth += (wireThickness / 200))
             {
-                chart.Series[0].Values.Add(new ObservablePoint(depth, calculateCurrentDensity(initalCurrentDensity, depth, skinDepth)));
-                if (calculateCurrentDensity(initalCurrentDensity, depth, skinDepth) <= initalCurrentDensity * 0.001 && negligibleAxisSection.Value == 0)
+                chart.Series[0].Values.Add(new ObservablePoint(depth, CalculateCurrentDensity(initalCurrentDensity, depth, skinDepth)));
+                if (CalculateCurrentDensity(initalCurrentDensity, depth, skinDepth) <= initalCurrentDensity * 0.001 && negligibleAxisSection.Value == 0)
                 {
                     negligibleAxisSection.Value = depth;
                     negligibleAxisSection.Visibility = 0;
                 }
-                if (calculateCurrentDensity(initalCurrentDensity, depth, skinDepth) <= initalCurrentDensity * 0.01 && minimalAxisSection.Value == 0)
+                if (CalculateCurrentDensity(initalCurrentDensity, depth, skinDepth) <= initalCurrentDensity * 0.01 && minimalAxisSection.Value == 0)
                 {
                     minimalAxisSection.Value = depth;
                     minimalAxisSection.Visibility = Visibility.Visible;
@@ -154,7 +149,7 @@ namespace SkinEffectGraph
             chart.AxisY[0].MaxValue = initalCurrentDensity;
         }
 
-        private void initialiseChart()
+        private void InitialiseChart()
         {
             CartesianChart chart = (this.Controls["chart"] as CartesianChart);
             chart.Series[0].Values.Clear();
@@ -193,7 +188,7 @@ namespace SkinEffectGraph
             skinDepthAxisSection.Visibility = Visibility.Hidden;
         }
 
-        private void numberonly_txtbox(object sender, KeyPressEventArgs e)
+        private void Numberonly_txtbox(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
                 (e.KeyChar != '.'))
@@ -208,7 +203,7 @@ namespace SkinEffectGraph
             }
         }
 
-        private double calculateCurrentDensity(double initialCurrent, double depth, double skinDepth)
+        private double CalculateCurrentDensity(double initialCurrent, double depth, double skinDepth)
         {
             return initialCurrent * Math.Pow(Math.E, -depth / skinDepth);
         }
