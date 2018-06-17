@@ -4,9 +4,12 @@ This program takes the variables of initial current density, skin depth and wire
 
 ![](https://user-images.githubusercontent.com/15330699/41508703-bc60c418-7240-11e8-8f61-eaf9d8c336bf.png)
 
-The program uses a depth range from 0 to half the wire thickness, in 100 incremements, to form a graph that looks like this: 
+The program uses a depth range from 0 to half the wire thickness to form a graph that looks like this: 
 
 ![image](https://user-images.githubusercontent.com/15330699/41508720-f7fda450-7240-11e8-9a48-6fcfd6084c93.png)
+
+The amount of points can be configured using the "Point Count" control. This is set to 100 by default which provides a decent accuracy. This number can be reduced
+or increased to a minumum of 10 and a maximum of 500 although this is not recommended.
 
 The purpose of the program is to demonstate the exponential decay of current density when an alternating current is passed though a conductor. 
 When the depth inside the conductor equals the skin depth, the current density is equal to 1/e of that of the surface density (Approximately 37%). 
