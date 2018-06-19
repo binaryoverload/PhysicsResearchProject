@@ -11,21 +11,21 @@ namespace SkinEffectGraph
     public partial class SkinEffectGraphForm : Form
     {
 
-        public double initalCurrentDensity;
-        public double skinDepth;
-        public double wireThickness;
-        public LiveCharts.Wpf.AxisSection skinDepthAxisSection;
-        public LiveCharts.Wpf.AxisSection negligibleAxisSection;
-        public LiveCharts.Wpf.AxisSection minimalAxisSection;
-        public double increments;
+        public double InitalCurrentDensity;
+        public double SkinDepth;
+        public double WireThickness;
+        public LiveCharts.Wpf.AxisSection SkinDepthAxisSection;
+        public LiveCharts.Wpf.AxisSection NegligibleAxisSection;
+        public LiveCharts.Wpf.AxisSection MinimalAxisSection;
+        public double Increments;
 
-        private Events events;
+        private readonly Events _events;
 
         public SkinEffectGraphForm()
         {
             InitializeComponent();
 
-            events = new Events(this);
+            _events = new Events(this);
 
             ToolStrip toolStrip = new ToolStrip
             {
@@ -40,8 +40,8 @@ namespace SkinEffectGraph
                 Text = "100"
             };
             initialCurrentDensityTxt.KeyPress += Numberonly_txtbox;
-            initialCurrentDensityTxt.TextChanged += events.InitialCurrentDensityTxt_TextChanged;
-            initialCurrentDensityTxt.LostFocus += events.InitialCurrentDensityTxt_LostFocus;
+            initialCurrentDensityTxt.TextChanged += _events.InitialCurrentDensityTxt_TextChanged;
+            initialCurrentDensityTxt.LostFocus += _events.InitialCurrentDensityTxt_LostFocus;
 
             ToolStripLabel skinDepthLabel = new ToolStripLabel("Skin Depth: ");
             ToolStripTextBox skinDepthTxt = new ToolStripTextBox
@@ -50,8 +50,8 @@ namespace SkinEffectGraph
                 Text = "0.1"
             };
             skinDepthTxt.KeyPress += Numberonly_txtbox;
-            skinDepthTxt.TextChanged += events.SkinDepthTxt_TextChanged;
-            skinDepthTxt.LostFocus += events.SkinDepthTxt_LostFocus;
+            skinDepthTxt.TextChanged += _events.SkinDepthTxt_TextChanged;
+            skinDepthTxt.LostFocus += _events.SkinDepthTxt_LostFocus;
 
 
             ToolStripLabel wireThicknessLabel = new ToolStripLabel("Wire Thickness: ");
@@ -61,15 +61,15 @@ namespace SkinEffectGraph
                 Text = "2"
             };
             wireThicknessTxt.KeyPress += Numberonly_txtbox;
-            wireThicknessTxt.TextChanged += events.WireThicknessTxt_TextChanged;
-            wireThicknessTxt.LostFocus += events.WireThicknessTxt_LostFocus;
+            wireThicknessTxt.TextChanged += _events.WireThicknessTxt_TextChanged;
+            wireThicknessTxt.LostFocus += _events.WireThicknessTxt_LostFocus;
 
             ToolStripLabel pointCountLabel = new ToolStripLabel("Point Count: ");
             ToolStripNumberControl pointCountUpDown = new ToolStripNumberControl();
             pointCountUpDown.NumericUpDownControl.Value = 100;
             pointCountUpDown.NumericUpDownControl.Minimum = 10;
             pointCountUpDown.NumericUpDownControl.Maximum = 500;
-            pointCountUpDown.ValueChanged += events.Increments_ValueChanged;
+            pointCountUpDown.ValueChanged += _events.Increments_ValueChanged;
 
             toolStrip.Items.Add(initialCurrentDensityLabel);
             toolStrip.Items.Add(initialCurrentDensityTxt);
@@ -83,31 +83,31 @@ namespace SkinEffectGraph
             toolStrip.Items.Add(pointCountLabel);
             toolStrip.Items.Add(pointCountUpDown);
 
-            initalCurrentDensity = Double.Parse(initialCurrentDensityTxt.Text);
-            skinDepth = Double.Parse(skinDepthTxt.Text);
-            wireThickness = Double.Parse(wireThicknessTxt.Text);
-            increments = Convert.ToDouble(pointCountUpDown.NumericUpDownControl.Value);
+            InitalCurrentDensity = Double.Parse(initialCurrentDensityTxt.Text);
+            SkinDepth = Double.Parse(skinDepthTxt.Text);
+            WireThickness = Double.Parse(wireThicknessTxt.Text);
+            Increments = Convert.ToDouble(pointCountUpDown.NumericUpDownControl.Value);
 
             CartesianChart cartesianChart = new CartesianChart
             {
                 Name = "chart",
                 Dock = DockStyle.Fill,
-                LegendLocation = LegendLocation.None
-            };
-
-            cartesianChart.Series = new SeriesCollection
-            {
-                new LiveCharts.Wpf.LineSeries
+                LegendLocation = LegendLocation.None,
+                Series = new SeriesCollection
                 {
-                    Title = "Current Density",
-                    Values = new ChartValues<ObservablePoint>(),
-                    PointGeometry = LiveCharts.Wpf.DefaultGeometries.Cross,
-                    PointGeometrySize = 5,
-                    StrokeThickness = 2,
-                    Stroke = Brushes.Black,
-                    Fill = Brushes.Transparent
+                    new LiveCharts.Wpf.LineSeries
+                    {
+                        Title = "Current Density",
+                        Values = new ChartValues<ObservablePoint>(),
+                        PointGeometry = LiveCharts.Wpf.DefaultGeometries.Cross,
+                        PointGeometrySize = 5,
+                        StrokeThickness = 2,
+                        Stroke = Brushes.Black,
+                        Fill = Brushes.Transparent
+                    }
                 }
             };
+
 
             cartesianChart.AxisX.Add(new LiveCharts.Wpf.Axis
             {
@@ -125,8 +125,8 @@ namespace SkinEffectGraph
                 FontSize = 12
             });
 
-            this.Controls.Add(cartesianChart);
-            this.Controls.Add(toolStrip);
+            Controls.Add(cartesianChart);
+            Controls.Add(toolStrip);
 
             UpdateData();
 
@@ -134,66 +134,66 @@ namespace SkinEffectGraph
 
         public void UpdateData()
         {
-            CartesianChart chart = (this.Controls["chart"] as CartesianChart);
+            CartesianChart chart = (Controls["chart"] as CartesianChart);
             InitialiseChart();
-            for (double depth = 0; depth <= wireThickness / 2; depth += (wireThickness / 2 / increments))
+            for (double depth = 0; depth <= WireThickness / 2; depth += (WireThickness / 2 / Increments))
             {
-                chart.Series[0].Values.Add(new ObservablePoint(depth, CalculateCurrentDensity(initalCurrentDensity, depth, skinDepth)));
-                if (CalculateCurrentDensity(initalCurrentDensity, depth, skinDepth) <= initalCurrentDensity * 0.001 && negligibleAxisSection.Value == 0)
+                chart?.Series[0].Values.Add(new ObservablePoint(depth, CalculateCurrentDensity(InitalCurrentDensity, depth, SkinDepth)));
+                if (CalculateCurrentDensity(InitalCurrentDensity, depth, SkinDepth) <= InitalCurrentDensity * 0.001 && NegligibleAxisSection.Value == 0)
                 {
-                    negligibleAxisSection.Value = depth;
-                    negligibleAxisSection.Visibility = 0;
+                    NegligibleAxisSection.Value = depth;
+                    NegligibleAxisSection.Visibility = 0;
                 }
-                if (CalculateCurrentDensity(initalCurrentDensity, depth, skinDepth) <= initalCurrentDensity * 0.01 && minimalAxisSection.Value == 0)
+                if (CalculateCurrentDensity(InitalCurrentDensity, depth, SkinDepth) <= InitalCurrentDensity * 0.01 && MinimalAxisSection.Value == 0)
                 {
-                    minimalAxisSection.Value = depth;
-                    minimalAxisSection.Visibility = Visibility.Visible;
+                    MinimalAxisSection.Value = depth;
+                    MinimalAxisSection.Visibility = Visibility.Visible;
                 }
             }
 
-            skinDepthAxisSection.Value = initalCurrentDensity * Math.Pow(Math.E, -1);
-            skinDepthAxisSection.Visibility = Visibility.Visible;
+            SkinDepthAxisSection.Value = InitalCurrentDensity * Math.Pow(Math.E, -1);
+            SkinDepthAxisSection.Visibility = Visibility.Visible;
 
-            chart.AxisY[0].MaxValue = initalCurrentDensity;
+            if (chart != null) chart.AxisY[0].MaxValue = InitalCurrentDensity;
         }
 
         public void InitialiseChart()
         {
-            CartesianChart chart = (this.Controls["chart"] as CartesianChart);
-            chart.Series[0].Values.Clear();
-            if (negligibleAxisSection == null)
+            CartesianChart chart = (Controls["chart"] as CartesianChart);
+            chart?.Series[0].Values.Clear();
+            if (NegligibleAxisSection == null)
             {
-                negligibleAxisSection = new LiveCharts.Wpf.AxisSection()
+                NegligibleAxisSection = new LiveCharts.Wpf.AxisSection()
                 {
                     Stroke = Brushes.Blue,
                     StrokeThickness = 1,
                 };
-                chart.AxisX[0].Sections.Add(negligibleAxisSection);
+                chart.AxisX[0].Sections.Add(NegligibleAxisSection);
             }
-            negligibleAxisSection.Value = 0;
-            negligibleAxisSection.Visibility = Visibility.Hidden;
-            if (minimalAxisSection == null)
+            NegligibleAxisSection.Value = 0;
+            NegligibleAxisSection.Visibility = Visibility.Hidden;
+            if (MinimalAxisSection == null)
             {
-                minimalAxisSection = new LiveCharts.Wpf.AxisSection()
+                MinimalAxisSection = new LiveCharts.Wpf.AxisSection()
                 {
                     Stroke = Brushes.Green,
                     StrokeThickness = 1,
                 };
-                chart.AxisX[0].Sections.Add(minimalAxisSection);
+                chart.AxisX[0].Sections.Add(MinimalAxisSection);
             }
-            minimalAxisSection.Value = 0;
-            minimalAxisSection.Visibility = Visibility.Hidden;
-            if (skinDepthAxisSection == null)
+            MinimalAxisSection.Value = 0;
+            MinimalAxisSection.Visibility = Visibility.Hidden;
+            if (SkinDepthAxisSection == null)
             {
-                skinDepthAxisSection = new LiveCharts.Wpf.AxisSection()
+                SkinDepthAxisSection = new LiveCharts.Wpf.AxisSection()
                 {
                     Stroke = Brushes.Red,
                     StrokeThickness = 1,
                 };
-                chart.AxisY[0].Sections.Add(skinDepthAxisSection);
+                chart.AxisY[0].Sections.Add(SkinDepthAxisSection);
             }
-            skinDepthAxisSection.Value = 0;
-            skinDepthAxisSection.Visibility = Visibility.Hidden;
+            SkinDepthAxisSection.Value = 0;
+            SkinDepthAxisSection.Visibility = Visibility.Hidden;
         }
 
         private void Numberonly_txtbox(object sender, KeyPressEventArgs e)
@@ -205,7 +205,7 @@ namespace SkinEffectGraph
             }
 
             // only allow one decimal point
-            if ((e.KeyChar == '.') && ((sender as ToolStripTextBox).Text.IndexOf('.') > -1))
+            if ((e.KeyChar == '.') && (((ToolStripTextBox) sender).Text.IndexOf('.') > -1))
             {
                 e.Handled = true;
             }

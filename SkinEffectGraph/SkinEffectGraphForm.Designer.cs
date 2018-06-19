@@ -36,7 +36,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 461);
             this.Name = "SkinEffectGraphForm";
-            this.Text = "Skin Effect Graph";
+            this.Text = "Skin Depth Graph";
             this.ResumeLayout(false);
 
         }

@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkinEffectGraph", "SkinEffectGraph\SkinEffectGraph.csproj", "{F36CD5FF-1515-4ACC-99EB-E026D4069ABE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkinDepthGraph", "SkinDepthCalulator\SkinDepthGraph.csproj", "{9BA1F777-748A-45D5-BD00-C4067D6A1FD3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F36CD5FF-1515-4ACC-99EB-E026D4069ABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F36CD5FF-1515-4ACC-99EB-E026D4069ABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F36CD5FF-1515-4ACC-99EB-E026D4069ABE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BA1F777-748A-45D5-BD00-C4067D6A1FD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BA1F777-748A-45D5-BD00-C4067D6A1FD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BA1F777-748A-45D5-BD00-C4067D6A1FD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BA1F777-748A-45D5-BD00-C4067D6A1FD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

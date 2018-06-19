@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SkinEffectGraph
@@ -10,40 +6,40 @@ namespace SkinEffectGraph
     class Events
     {
 
-        private SkinEffectGraphForm mainForm;
+        private readonly SkinEffectGraphForm _mainForm;
 
         public Events(SkinEffectGraphForm form)
         {
-            this.mainForm = form;
+            _mainForm = form;
         }
 
         public void Increments_ValueChanged(object sender, EventArgs e)
         {
-            mainForm.increments = Convert.ToDouble((sender as ToolStripNumberControl).NumericUpDownControl.Value);
-            mainForm.UpdateData();
+            _mainForm.Increments = Convert.ToDouble(((ToolStripNumberControl) sender).NumericUpDownControl.Value);
+            _mainForm.UpdateData();
         }
 
         public void WireThicknessTxt_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                if (!((sender as ToolStripTextBox).Text == ""))
+                if (((ToolStripTextBox) sender).Text != "")
                 {
-                    mainForm.wireThickness = Double.Parse((sender as ToolStripTextBox).Text);
-                    if (!(mainForm.wireThickness <= 0))
+                    _mainForm.WireThickness = Double.Parse(((ToolStripTextBox) sender).Text);
+                    if (!(_mainForm.WireThickness <= 0))
                     {
-                        mainForm.UpdateData();
+                        _mainForm.UpdateData();
                     }
-                    if (mainForm.wireThickness > 1000000)
+                    if (_mainForm.WireThickness > 1000000)
                     {
                         MessageBox.Show("That wire is too wide for me!", "Skin Effect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        (sender as ToolStripTextBox).Text = "2";
+                        ((ToolStripTextBox) sender).Text = "2";
                     }
                 }
             }
             catch (Exception)
             {
-                (sender as ToolStripTextBox).Text = "2";
+                ((ToolStripTextBox) sender).Text = "2";
             }
         }
 
@@ -51,23 +47,23 @@ namespace SkinEffectGraph
         {
             try
             {
-                if (!((sender as ToolStripTextBox).Text == ""))
+                if (((ToolStripTextBox) sender).Text != "")
                 {
-                    mainForm.skinDepth = Double.Parse((sender as ToolStripTextBox).Text);
-                    if (!(mainForm.skinDepth <= 0))
+                    _mainForm.SkinDepth = Double.Parse(((ToolStripTextBox) sender).Text);
+                    if (!(_mainForm.SkinDepth <= 0))
                     {
-                        mainForm.UpdateData();
+                        _mainForm.UpdateData();
                     }
-                    if (mainForm.skinDepth > 1000)
+                    if (_mainForm.SkinDepth > 1000)
                     {
                         MessageBox.Show("Are you sure you've done your maths right? This is a biggg skin depth!", "Skin Effect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        (sender as ToolStripTextBox).Text = "0.1";
+                        ((ToolStripTextBox) sender).Text = "0.1";
                     }
                 }
             }
             catch (Exception)
             {
-                (sender as ToolStripTextBox).Text = "0.1";
+                ((ToolStripTextBox) sender).Text = "0.1";
             }
         }
 
@@ -75,23 +71,23 @@ namespace SkinEffectGraph
         {
             try
             {
-                if (!((sender as ToolStripTextBox).Text == ""))
+                if (((ToolStripTextBox) sender).Text != "")
                 {
-                    mainForm.initalCurrentDensity = Double.Parse((sender as ToolStripTextBox).Text);
-                    if (!(mainForm.initalCurrentDensity <= 0))
+                    _mainForm.InitalCurrentDensity = Double.Parse(((ToolStripTextBox) sender).Text);
+                    if (!(_mainForm.InitalCurrentDensity <= 0))
                     {
-                        mainForm.UpdateData();
+                        _mainForm.UpdateData();
                     }
-                    if (mainForm.initalCurrentDensity > 1000000)
+                    if (_mainForm.InitalCurrentDensity > 1000000)
                     {
                         MessageBox.Show("A current density bigger than 1x10^6? You're getting too big for your boots!", "Skin Effect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        (sender as ToolStripTextBox).Text = "100";
+                        ((ToolStripTextBox) sender).Text = "100";
                     }
                 }
             }
             catch (Exception)
             {
-                (sender as ToolStripTextBox).Text = "100";
+                ((ToolStripTextBox) sender).Text = "100";
             }
         }
 
@@ -99,14 +95,14 @@ namespace SkinEffectGraph
         {
             try
             {
-                if (Double.Parse((sender as ToolStripTextBox).Text) <= 0 || Double.Parse((sender as ToolStripTextBox).Text) >= 1000000)
+                if (Double.Parse(((ToolStripTextBox) sender).Text) <= 0 || Double.Parse(((ToolStripTextBox) sender).Text) >= 1000000)
                 {
-                    (sender as ToolStripTextBox).Text = "100";
+                    ((ToolStripTextBox) sender).Text = "100";
                 }
             }
             catch (Exception)
             {
-                (sender as ToolStripTextBox).Text = "100";
+                ((ToolStripTextBox) sender).Text = "100";
             }
         }
 
@@ -114,14 +110,14 @@ namespace SkinEffectGraph
         {
             try
             {
-                if (Double.Parse((sender as ToolStripTextBox).Text) <= 0 || Double.Parse((sender as ToolStripTextBox).Text) >= 1000)
+                if (Double.Parse(((ToolStripTextBox) sender).Text) <= 0 || Double.Parse(((ToolStripTextBox) sender).Text) >= 1000)
                 {
-                    (sender as ToolStripTextBox).Text = "0.1";
+                    ((ToolStripTextBox) sender).Text = "0.1";
                 }
             }
             catch (Exception)
             {
-                (sender as ToolStripTextBox).Text = "0.1";
+                ((ToolStripTextBox) sender).Text = "0.1";
             }
         }
 
@@ -129,14 +125,14 @@ namespace SkinEffectGraph
         {
             try
             {
-                if (Double.Parse((sender as ToolStripTextBox).Text) <= 0 || Double.Parse((sender as ToolStripTextBox).Text) >= 1000000)
+                if (Double.Parse(((ToolStripTextBox) sender).Text) <= 0 || Double.Parse(((ToolStripTextBox) sender).Text) >= 1000000)
                 {
-                    (sender as ToolStripTextBox).Text = "2";
+                    ((ToolStripTextBox) sender).Text = "2";
                 }
             }
             catch (Exception)
             {
-                (sender as ToolStripTextBox).Text = "2";
+                ((ToolStripTextBox) sender).Text = "2";
             }
         }
 

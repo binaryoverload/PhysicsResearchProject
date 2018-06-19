@@ -16,21 +16,18 @@ namespace SkinEffectGraph
         protected override void OnSubscribeControlEvents(Control control)
         {
             base.OnSubscribeControlEvents(control);
-            ((NumericUpDown)control).ValueChanged += new EventHandler(OnValueChanged);
+            ((NumericUpDown)control).ValueChanged += OnValueChanged;
         }
 
         protected override void OnUnsubscribeControlEvents(Control control)
         {
             base.OnUnsubscribeControlEvents(control);
-            ((NumericUpDown)control).ValueChanged -= new EventHandler(OnValueChanged);
+            ((NumericUpDown)control).ValueChanged -= OnValueChanged;
         }
 
         public event EventHandler ValueChanged;
 
-        public NumericUpDown NumericUpDownControl
-        {
-            get { return Control as NumericUpDown; }
-        }
+        public NumericUpDown NumericUpDownControl => Control as NumericUpDown;
 
         public void OnValueChanged(object sender, EventArgs e)
         {
